@@ -39,4 +39,8 @@ public class OrderController {
 
         return orderService.getOrdersPaged(page, size);
     }
+    @GetMapping("/high-value")
+    public List<Order> getHighValueOrders(){
+        return orderService.getHighValueOrders();
+    }
 }
