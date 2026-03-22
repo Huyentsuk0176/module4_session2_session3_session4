@@ -20,9 +20,7 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
-        return new ApiResponse<>(
-                "FAIL",
-                "Dữ liệu không hợp lệ",
+        return new ApiResponse<>("FAIL", "Dữ liệu không hợp lệ",
                 errors
         );
     }
@@ -30,10 +28,7 @@ public class GlobalExceptionHandler {
     // SYSTEM ERROR
     @ExceptionHandler(Exception.class)
     public ApiResponse<Object> handleAll(Exception ex) {
-        return new ApiResponse<>(
-                "FAIL",
-                "Lỗi hệ thống",
-                null
+        return new ApiResponse<>("FAIL", "Loi he thong", null
         );
     }
 }

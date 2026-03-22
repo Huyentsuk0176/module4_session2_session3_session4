@@ -1,26 +1,17 @@
 package com.example.employee_api.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeFilter {
 
     private String name;
-    private String department;
+    private Long departmentId;
 
-    public EmployeeFilter() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 }

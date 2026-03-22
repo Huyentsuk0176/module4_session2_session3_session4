@@ -1,40 +1,43 @@
 package com.example.employee_api.service;
 
+import com.example.employee_api.dto.request.EmployeeCreateDTO;
 import com.example.employee_api.model.Employee;
 import com.example.employee_api.model.EmployeeFilter;
+import com.example.employee_api.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    // Danh sách nhân viên
-    private List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
+    private Long idCounter = 1L;
 
-    // ID tự tăng
-    private Long currentId = 4L;
+    // ✅ CREATE
+    @Override
+    public Employee create(EmployeeCreateDTO dto) {
+        Employee emp = new Employee();
 
-    // Constructor chứa dữ liệu mẫu
-    public EmployeeServiceImpl() {
-        employees.add(new Employee(1L, "Tuan", "IT", 2000.0));
-        employees.add(new Employee(2L, "Lan", "HR", 1800.0));
-        employees.add(new Employee(3L, "Tuan", "Marketing", 2200.0));
+        emp.setId(idCounter++);
+        emp.setFullName(dto.getFullName());
+        emp.setEmail(dto.getEmail());
+        emp.setPhone(dto.getPhone());
+        emp.setSalary(dto.getSalary());
+        emp.setDepartmentId(dto.getDepartmentId());
+
+        employees.add(emp);
+        return emp;
     }
 
-    // ===========================
-    // 🔥 BÀI 4 - ĐỌC DỮ LIỆU
-    // ===========================
-
-    // 1. Lấy tất cả nhân viên
+    // ✅ GET ALL
     @Override
     public List<Employee> getAll() {
         return employees;
     }
 
-    // 2. Lấy theo ID
+    // ✅ FIND BY ID
     @Override
     public Employee findById(Long id) {
         return employees.stream()
@@ -43,54 +46,43 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElse(null);
     }
 
-    // 3. Tìm theo tên
+    // ✅ FIND BY NAME
     @Override
     public List<Employee> findByName(String name) {
         return employees.stream()
-                .filter(e -> e.getName().equalsIgnoreCase(name))
-                .collect(Collectors.toList());
+                .filter(e -> e.getFullName().toLowerCase().contains(name.toLowerCase()))
+                .toList();
     }
 
-    // 4. Tìm theo filter (name + department)
+    // ✅ FILTER (tạm basic)
     @Override
     public List<Employee> filter(EmployeeFilter filter) {
         return employees.stream()
-                .filter(e -> (filter.getName() == null || e.getName().equalsIgnoreCase(filter.getName())))
-                .filter(e -> (filter.getDepartment() == null || e.getDepartment().equalsIgnoreCase(filter.getDepartment())))
-                .collect(Collectors.toList());
+                .filter(e -> filter.getName() == null || e.getFullName().contains(filter.getName()))
+                .filter(e -> filter.getDepartmentId() == null || e.getDepartmentId().equals(filter.getDepartmentId()))
+                .toList();
     }
 
-    // ===========================
-    // 🔥 BÀI 5 - GHI DỮ LIỆU
-    // ===========================
-
-    // 5. Thêm mới nhân viên (POST)
-    @Override
-    public Employee create(Employee employee) {
-        employee.setId(currentId++);   // Tự tăng ID
-        employees.add(employee);
-        return employee;
-    }
-
-    // 6. Cập nhật nhân viên (PUT)
+    // ✅ UPDATE
     @Override
     public Employee update(Long id, Employee employee) {
-
         Employee existing = employees.stream()
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
         if (existing != null) {
-            existing.setName(employee.getName());
-            existing.setDepartment(employee.getDepartment());
+            existing.setFullName(employee.getFullName());
+            existing.setEmail(employee.getEmail());
+            existing.setPhone(employee.getPhone());
             existing.setSalary(employee.getSalary());
+            existing.setDepartmentId(employee.getDepartmentId());
         }
 
         return existing;
     }
 
-    // 7. Xóa nhân viên (DELETE)
+    // ✅ DELETE
     @Override
     public void delete(Long id) {
         employees.removeIf(e -> e.getId().equals(id));

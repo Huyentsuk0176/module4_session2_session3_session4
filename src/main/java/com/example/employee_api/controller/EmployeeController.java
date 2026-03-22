@@ -1,5 +1,6 @@
 package com.example.employee_api.controller;
 
+import com.example.employee_api.dto.request.EmployeeCreateDTO;
 import com.example.employee_api.model.Employee;
 import com.example.employee_api.model.EmployeeFilter;
 import com.example.employee_api.service.EmployeeService;
@@ -44,8 +45,8 @@ public class EmployeeController {
     //bai 5, them moi
     @PostMapping
     public Employee
-    createEmployee(@RequestBody Employee employee){
-        return employeeService.create(employee);
+    createEmployee(@RequestBody EmployeeCreateDTO dto){
+        return employeeService.create(dto);
     }
     //update
     @PutMapping("/{id}")
