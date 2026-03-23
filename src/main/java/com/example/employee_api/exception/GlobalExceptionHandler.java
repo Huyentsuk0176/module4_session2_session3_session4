@@ -1,6 +1,7 @@
 package com.example.employee_api.exception;
 
 import com.example.employee_api.dto.response.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,10 @@ public class GlobalExceptionHandler {
 
     // SYSTEM ERROR
     @ExceptionHandler(Exception.class)
-    public ApiResponse<Object> handleAll(Exception ex) {
-        return new ApiResponse<>("FAIL", "Loi he thong", null
+    public ResponseEntity<ApiResponse<Object>> handleAll(Exception ex) {
+        ex.printStackTrace();
+        return ResponseEntity.ok(
+                new ApiResponse<>("FAIL", "Loi he thong", null)
         );
     }
 }

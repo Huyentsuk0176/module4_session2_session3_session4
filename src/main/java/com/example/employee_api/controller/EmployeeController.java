@@ -4,13 +4,17 @@ import com.example.employee_api.dto.request.EmployeeCreateDTO;
 import com.example.employee_api.model.Employee;
 import com.example.employee_api.model.EmployeeFilter;
 import com.example.employee_api.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/v1/employees")
 public class EmployeeController {
+    @Autowired
 
     private final EmployeeService employeeService;
 
@@ -61,4 +65,17 @@ public class EmployeeController {
         employeeService.delete(id);
         return "Deleted successfully";
     }
+
+
+
+
+    @GetMapping("/api/v1/employees")
+    public List<Employee> getAllEmployees() {
+        return List.of(
+                new Employee(1L, "Nguyen Van A",null,null, 1000.0,null),
+                new Employee(2L, "Tran Thi B",null,null, 1200.0,null),
+                new Employee(3L, "Le Van C", null, null, 1500.0,null)
+        );
+    }
 }
+
