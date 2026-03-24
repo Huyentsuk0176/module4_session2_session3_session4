@@ -1,6 +1,7 @@
 package com.example.employee_api.exception;
 
 import com.example.employee_api.dto.response.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(500)
                 .body(new ApiResponse<>("FAIL", ex.getMessage(), null));
+    }
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleUsernameAlreadyExists(UsernameAlreadyExistsException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 400);
+        response.put("message", ex.getMessage());
+        return response;
     }
 }

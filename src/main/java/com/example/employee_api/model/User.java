@@ -21,6 +21,8 @@ public class User {
 
     @Column(nullable = false)
     private boolean enabled = true;
+    @Column(nullable = false)
+    private String fullName;
 
     public User() {
     }
@@ -71,5 +73,9 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName=fullName;
     }
 }
